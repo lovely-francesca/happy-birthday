@@ -120,6 +120,9 @@ Lo step finale è speciale: pulsante «Apri il regalo» → schermata finale.
    pronti da stampare (la card è raggiungibile anche online).
 4. Si stampa la card o si condivide il QR; l'app non richiede installazione.
 
+Anteprima live: <https://kimikone21-rgb.github.io/happy-birthday/> · card QR:
+<https://kimikone21-rgb.github.io/happy-birthday/qr-card.html>
+
 ---
 
 ## 6. Personalizzazione (5 minuti)
@@ -142,7 +145,7 @@ Dopo la modifica: commit → deploy automatico → rigenerare il QR solo se camb
 | 2 | Percorso, nodi, quiz, salvataggio, ripristino | ✅ |
 | 3 | Schermata finale, coriandoli + fuochi d'artificio | ✅ |
 | 4 | Personalizzazione testi (placeholder → reali) | da fare con i dati veri |
-| 5 | Deploy GitHub Pages + QR + prova su telefono | da fare |
+| 5 | Deploy GitHub Pages + QR + prova su telefono | ✅ anteprima online + QR pronti |
 
 ### Criteri di accettazione
 

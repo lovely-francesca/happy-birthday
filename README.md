@@ -4,6 +4,9 @@ Web app per un compleanno: **7 tappe** con mini-quiz in italiano, percorso a ser
 stelle, salvataggio dei progressi e gran finale con **coriandoli e fuochi d’artificio**.
 Si apre con un **QR code** e vive su **GitHub Pages** (gratis, HTTPS, nessun backend).
 
+**Anteprima online:** <https://kimikone21-rgb.github.io/happy-birthday/>
+(contenuti segnaposto finché non personalizzi i due file indicati sotto)
+
 ![stack](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![stack](https://img.shields.io/badge/React-19-087EA4?logo=react&logoColor=white)
 ![stack](https://img.shields.io/badge/TypeScript-7-3178C6?logo=typescript&logoColor=white)
@@ -19,7 +22,7 @@ npm run build    # build statica in dist/
 npm run preview  # anteprima della build
 ```
 
-Requisiti: Node 20+ (testato con Node 25).
+Requisiti: Node 22+ (testato con Node 25).
 
 ## Personalizzazione (5 minuti)
 
@@ -65,8 +68,11 @@ git commit -m "Birthday app"
 gh repo create happy-birthday --public --source=. --remote=origin --push
 ```
 
-Il primo run del workflow abilita Pages da solo (`enablement: true`). Se il repository esiste
-già:
+Il primo run del workflow pubblica su Pages. Se Pages non è ancora attivo, abilitalo una
+volta da **Settings → Pages → Source: GitHub Actions** (oppure con
+`gh api --method POST repos/<utente>/<repo>/pages -f build_type=workflow`).
+
+Se il repository esiste già:
 
 ```bash
 git remote add origin https://github.com/<utente>/happy-birthday.git
@@ -81,8 +87,6 @@ https://<utente>.github.io/<repo>/
 
 > Il progetto usa `base: './'`, quindi funziona con qualsiasi nome di repository
 > senza modifiche.
-
-In alternativa, dalle impostazioni del repo: **Settings → Pages → Source: GitHub Actions**.
 
 ## QR code
 
