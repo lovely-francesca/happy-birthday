@@ -1,9 +1,10 @@
 /**
  * ✏️ PERSONALIZZA QUI
- * Questi sono i dati della festeggiata. Sostituisci i segnaposto con quelli veri.
+ * Questi sono i dati della festeggiata.
+ * ⚠️ `age` e `dateLabel` sono ancora segnaposto: sostituiscili con età e data vere.
  */
 export const birthday = {
-  name: 'Giulia',
+  name: 'Francesca',
   age: 30,
   dateLabel: '12 novembre',
   message:

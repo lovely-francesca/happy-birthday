@@ -99,7 +99,7 @@ function FinalStepBody({ step, soundOn, onComplete }: BodyProps & { step: Extrac
 
       <button
         type="button"
-        className="btn btn--green btn--wide btn--big final-step__cta"
+        className="btn btn--primary btn--wide btn--big final-step__cta"
         onClick={() => {
           playSound('complete', soundOn);
           vibrate([30, 60, 30]);
@@ -172,7 +172,7 @@ function ChoiceStepBody({ step, soundOn, onComplete }: BodyProps & { step: Choic
               ? 'Quasi perfetto: una piccola distrazione.'
               : 'L’importante è arrivare in fondo. 💪'}
         </p>
-        <button type="button" className="btn btn--green btn--wide" onClick={() => onComplete(stars)}>
+        <button type="button" className="btn btn--primary btn--wide" onClick={() => onComplete(stars)}>
           CONTINUA
           <Icon name="arrow" size={20} />
         </button>
@@ -254,7 +254,7 @@ function ChoiceStepBody({ step, soundOn, onComplete }: BodyProps & { step: Choic
           </p>
           <button
             type="button"
-            className={`btn btn--wide ${isCorrect ? 'btn--green' : 'btn--red'}`}
+            className={`btn btn--wide ${isCorrect ? 'btn--primary' : 'btn--red'}`}
             onClick={advance}
           >
             {isCorrect ? 'CONTINUA' : 'RIPROVA'}

@@ -82,7 +82,7 @@ export function FinalScreen({
         </div>
 
         <div className="final__actions">
-          <button type="button" className="btn btn--green btn--wide" onClick={() => void onShare()}>
+          <button type="button" className="btn btn--primary btn--wide" onClick={() => void onShare()}>
             <Icon name="share" size={20} />
             CONDIVIDI
           </button>

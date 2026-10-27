@@ -1,11 +1,12 @@
-# 🎂 Buon compleanno — percorso in stile Duolingo
+# 🎂 Francesca's Birthday — percorso in stile Duolingo
 
-Web app per un compleanno: **7 tappe** con mini-quiz in italiano, percorso a serpentina,
-stelle, salvataggio dei progressi e gran finale con **coriandoli e fuochi d’artificio**.
-Si apre con un **QR code** e vive su **GitHub Pages** (gratis, HTTPS, nessun backend).
+Web app per un compleanno: **landing animata con le nuvole**, **7 tappe** con mini-quiz in
+italiano, percorso a serpentina, stelle, salvataggio dei progressi e gran finale con
+**coriandoli e fuochi d’artificio**. Si apre con un **QR code** e vive su **GitHub Pages**
+(gratis, HTTPS, nessun backend).
 
 **Anteprima online:** <https://kimikone21-rgb.github.io/happy-birthday/>
-(contenuti segnaposto finché non personalizzi i due file indicati sotto)
+(nome già impostato su Francesca; età e data sono ancora segnaposto)
 
 ![stack](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
 ![stack](https://img.shields.io/badge/React-19-087EA4?logo=react&logoColor=white)
@@ -35,6 +36,9 @@ Tutto il contenuto è in due file:
 
 I punti pensati per essere sostituiti sono marcati con `TODO`. Nei testi puoi usare
 `{{name}}`, `{{age}}` e `{{date}}` come segnaposto.
+
+> ⚠️ In `src/data/birthday.ts` l’età (`30`) e la data (`12 novembre`) sono ancora segnaposto:
+> aggiornale con i dati veri prima di stampare il QR.
 
 Dopo la modifica:
 
@@ -93,7 +97,7 @@ https://<utente>.github.io/<repo>/
 Quando l’app è online:
 
 ```bash
-npm run qr -- https://<utente>.github.io/<repo>/ "Giulia"
+npm run qr -- https://<utente>.github.io/<repo>/ "Francesca"
 ```
 
 Genera:
@@ -108,14 +112,20 @@ Il QR si rigenera solo se cambia l’URL.
 ## Come funziona
 
 ```
-Percorso (7 nodi)
-   └── tocca la tappa attiva
-         └── mini-quiz (scelta multipla / vero-falso / indovinello / emoji)
-               ├── risposta giusta → feedback verde → stelle (3/2/1) → tappa successiva
-               └── risposta sbagliata → feedback rosso → riprova
-   └── ultima tappa → schermata finale + coriandoli + fuochi d’artificio
+Landing (cielo + nuvole animate)
+   └── «Francesca's Birthday» emerge dalle nuvole
+         └── dopo 3 secondi appare «Iniziamo il viaggio»
+               └── Percorso (7 nodi)
+                     └── tocca la tappa attiva
+                           └── mini-quiz (scelta multipla / vero-falso / indovinello / emoji)
+                                 ├── risposta giusta → feedback verde → stelle (3/2/1) → tappa successiva
+                                 └── risposta sbagliata → feedback rosso → riprova
+                     └── ultima tappa → schermata finale + coriandoli + fuochi d’artificio
 ```
 
+- **Landing**: nuvole CSS animate, titolo che sbuca dalle nuvole e pulsante che appare dopo
+  3 secondi esatti; compare solo se non ci sono ancora progressi salvati.
+- **Palette**: cielo, rosa, giallo e viola; il verde resta solo per le risposte corrette.
 - **Stelle**: 3 senza errori, 2 con un errore, 1 con due o più (massimo 21).
 - **Finale**: messaggio personale, età, sorpresa, statistiche, condivisione, rigioca,
   “Rivedi i fuochi” per rilanciare l’effetto.
@@ -130,7 +140,7 @@ Percorso (7 nodi)
 src/
   data/            contenuti personalizzabili
   lib/             progressi, link di ripristino, audio, condivisione
-  components/      percorso, nodi, modal quiz, finale, coriandoli, fuochi
+  components/      landing, percorso, nodi, modal quiz, finale, coriandoli, fuochi
   App.tsx          stato globale e viste
   index.css        design system e animazioni
 scripts/qr.mjs     generatore QR + card stampabile

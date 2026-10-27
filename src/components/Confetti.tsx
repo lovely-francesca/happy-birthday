@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { CSSProperties } from 'react';
 
-const COLORS = ['#ffd166', '#ff8fab', '#58cc02', '#1cb0f6', '#ff9600', '#c77dff', '#ffffff', '#ff4d6d'];
+const COLORS = ['#ffd166', '#ff4f8b', '#5fc8f6', '#a06cf0', '#ff9600', '#ff7ba5', '#ffffff', '#ffc93c'];
 const PIECES = 64;
 
 /** Coriandoli puramente CSS: leggeri e senza dipendenze. */

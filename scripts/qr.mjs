@@ -26,7 +26,7 @@ const svg = await QRCode.toString(url, {
   margin: 2,
   width: 512,
   color: {
-    dark: '#2f7a00',
+    dark: '#5b2a86',
     light: '#ffffff',
   },
 });
@@ -52,8 +52,11 @@ const card = `<!doctype html>
         display: grid;
         place-items: center;
         padding: 24px;
-        background: radial-gradient(circle at 50% 0%, #fff7d6 0%, transparent 45%), #eef6e3;
-        color: #3c3c3c;
+        background:
+          radial-gradient(circle at 50% 0%, #fff3b0 0%, transparent 42%),
+          radial-gradient(circle at 100% 100%, #ffe1ed 0%, transparent 45%),
+          #e8f7ff;
+        color: #3d3452;
         font-family: 'Nunito', ui-rounded, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       }
       .card {
@@ -61,15 +64,15 @@ const card = `<!doctype html>
         padding: 42px 38px 34px;
         border-radius: 30px;
         background: #fff;
-        box-shadow: 0 30px 80px rgba(63, 80, 40, 0.18);
+        box-shadow: 0 30px 80px rgba(90, 60, 130, 0.18);
         text-align: center;
       }
       .eyebrow {
         display: inline-block;
         padding: 6px 13px;
         border-radius: 999px;
-        background: #e8f8d8;
-        color: #46a302;
+        background: #ffe4ef;
+        color: #d92f6a;
         font-size: 11px;
         font-weight: 900;
         letter-spacing: 1.2px;
@@ -80,16 +83,16 @@ const card = `<!doctype html>
         font-family: 'Baloo 2', 'Nunito', sans-serif;
         font-size: 34px;
         line-height: 1.05;
-        color: #35402c;
+        color: #3d3452;
       }
-      h1 span { color: #46a302; }
-      p { margin: 0; color: #777f6d; font-size: 14px; font-weight: 600; line-height: 1.5; }
+      h1 span { color: #d92f6a; }
+      p { margin: 0; color: #7c7590; font-size: 14px; font-weight: 600; line-height: 1.5; }
       .qr {
         width: 280px;
         max-width: 74vw;
         margin: 24px auto 18px;
         padding: 12px;
-        border: 3px dashed #d5e8c3;
+        border: 3px dashed #a9def8;
         border-radius: 24px;
       }
       .qr svg { display: block; width: 100%; height: auto; }
@@ -98,13 +101,13 @@ const card = `<!doctype html>
         font-size: 10px;
         font-weight: 800;
         letter-spacing: 0.3px;
-        color: #a8b09f;
+        color: #b0a7c2;
         word-break: break-all;
       }
       .cake { font-size: 26px; line-height: 1; }
       @media print {
         body { background: #fff; }
-        .card { box-shadow: none; border: 2px dashed #58cc02; }
+        .card { box-shadow: none; border: 2px dashed #ff4f8b; }
         .hint { display: none; }
       }
     </style>

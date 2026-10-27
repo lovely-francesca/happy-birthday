@@ -14,6 +14,7 @@ import type { Progress } from './lib/progress';
 import { loadSoundPreference, saveSoundPreference } from './lib/prefs';
 import { playSound } from './lib/sound';
 import { copyText } from './lib/share';
+import { LandingScreen } from './components/LandingScreen';
 import { Header } from './components/Header';
 import { PathScreen } from './components/PathScreen';
 import { StepModal } from './components/StepModal';
@@ -21,7 +22,7 @@ import { FinalScreen } from './components/FinalScreen';
 import { Toast } from './components/Toast';
 import { ConfirmDialog } from './components/ConfirmDialog';
 
-type View = 'path' | 'final';
+type View = 'landing' | 'path' | 'final';
 
 interface InitialState {
   progress: Progress;
@@ -55,9 +56,11 @@ function loadInitialState(): InitialState {
 export default function App() {
   const [initial] = useState(loadInitialState);
   const [progress, setProgress] = useState<Progress>(initial.progress);
-  const [view, setView] = useState<View>(
-    initial.progress.completed.length >= STEPS.length ? 'final' : 'path',
-  );
+  const [view, setView] = useState<View>(() => {
+    if (initial.progress.completed.length >= STEPS.length) return 'final';
+    if (initial.progress.completed.length === 0) return 'landing';
+    return 'path';
+  });
   const [activeStepId, setActiveStepId] = useState<string | null>(null);
   const [soundOn, setSoundOn] = useState(loadSoundPreference);
   const [toast, setToast] = useState<string | null>(null);
@@ -138,6 +141,11 @@ export default function App() {
     setActiveStepId(stepId);
   };
 
+  const startJourney = () => {
+    playSound('tap', soundOn);
+    setView('path');
+  };
+
   const resetProgress = () => {
     setProgress(createEmptyProgress());
     setView('path');
@@ -167,7 +175,9 @@ export default function App() {
   return (
     <div className="app">
       <div className="app-shell">
-        {view === 'path' ? (
+        {view === 'landing' ? (
+          <LandingScreen onStart={startJourney} />
+        ) : view === 'path' ? (
           <>
             <Header
               completed={progress.completed.length}

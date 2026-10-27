@@ -8,17 +8,22 @@
 ## 1. Esperienza
 
 1. La festeggiata inquadra un **QR code** (stampato o condiviso) e apre l'app sul telefono.
-2. Trova un **percorso verticale** in stile Duolingo: tappe sbloccate in sequenza, tappe
-   completate con stelline, tappe future bloccate.
-3. Tocca la tappa attiva → si apre un **mini-quiz** (risposta multipla, vero/falso, indovinello, rebus di emoji).
-4. Ogni risposta corretta fa avanzare; una risposta sbagliata invita a riprovare (e riduce le stelle).
-5. Alla fine del settimo step: **schermata finale** con messaggio, sorpresa, coriandoli e fuochi d'artificio.
-6. Se chiude il browser, al rientro riprende esattamente da dove era. Su un altro telefono può
+2. La **landing page** mostra un cielo animato con nuvole in movimento: il titolo
+   **«Francesca's Birthday»** emerge dalle nuvole e, dopo 3 secondi, appare il pulsante
+   **«Iniziamo il viaggio»**.
+3. Al tocco del pulsante si apre il **percorso verticale** in stile Duolingo: tappe sbloccate
+   in sequenza, tappe completate con stelline, tappe future bloccate.
+4. Tocca la tappa attiva → si apre un **mini-quiz** (risposta multipla, vero/falso, indovinello, rebus di emoji).
+5. Ogni risposta corretta fa avanzare; una risposta sbagliata invita a riprovare (e riduce le stelle).
+6. Alla fine del settimo step: **schermata finale** con messaggio, sorpresa, coriandoli e fuochi d'artificio.
+7. Se chiude il browser, al rientro riprende esattamente da dove era. Su un altro telefono può
    riprendere tramite **link di ripristino**.
 
 ### Dettagli che vendono l'effetto «Duolingo»
 
-- Palette verde/crema, fonti arrotondate, bottoni con ombra 3D e feedback alla pressione.
+- Palette cielo/rosa/giallo/viola (il verde resta solo per le risposte corrette), fonti
+  arrotondate, bottoni con ombra 3D e feedback alla pressione.
+- Landing con nuvole CSS animate, titolo che sbuca dalle nuvole e CTA ritardata di 3 secondi.
 - Percorso a serpentina con linea tratteggiata che si colora man mano.
 - Nodi con icona, lucchetto, pulsazione sulla tappa corrente, stelline guadagnate.
 - Mascotte personalizzata (cupcake) con fumetto che cambia in base al progresso.
@@ -39,7 +44,7 @@
 | QR | script Node (`qrcode`) che genera SVG + card stampabile | Si rigenera in 2 secondi quando cambia l'URL |
 | Backend futuro | **Supabase** (opzionale) | Solo se servirà sincronizzazione reale multi-dispositivo |
 
-Nessun router: è una single page con due viste (`percorso`, `finale`) e un modal per gli step.
+Nessun router: è una single page con tre viste (`landing`, `percorso`, `finale`) e un modal per gli step.
 `base: './'` in Vite rende i path relativi, così l'app funziona su qualunque repo GitHub Pages
 senza configurare il nome del repository.
 
@@ -58,6 +63,7 @@ src/
     text.ts            # interpolazione {{name}} / {{age}} / {{date}}
     share.ts           # copia link, Web Share API con fallback
   components/
+    LandingScreen.tsx  # cielo animato, nuvole, titolo e CTA dopo 3 secondi
     Header.tsx         # brand, stelle, audio, menu, barra progresso
     PathScreen.tsx     # percorso SVG + nodi + mascotte + CTA
     PathNode.tsx       # stato completed / current / locked
@@ -146,10 +152,13 @@ Dopo la modifica: commit → deploy automatico → rigenerare il QR solo se camb
 | 3 | Schermata finale, coriandoli + fuochi d'artificio | ✅ |
 | 4 | Personalizzazione testi (placeholder → reali) | da fare con i dati veri |
 | 5 | Deploy GitHub Pages + QR + prova su telefono | ✅ anteprima online + QR pronti |
+| 6 | Palette colorata + landing animata con nuvole | ✅ |
 
 ### Criteri di accettazione
 
 - [x] 7 step in italiano, sbloccati in sequenza, con feedback e retry.
+- [x] Landing con nuvole animate, titolo «Francesca's Birthday» e CTA dopo 3 secondi.
+- [x] Palette colorata (cielo, rosa, giallo, viola) con verde semantico per le risposte corrette.
 - [x] Progressi e stelle persistono dopo refresh e chiusura del browser.
 - [x] Link di ripristino funzionante su un altro dispositivo.
 - [x] Finale con coriandoli e fuochi d'artificio, accessibile e performante.

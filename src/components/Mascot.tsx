@@ -78,7 +78,7 @@ export function Mascot({ size = 120, className }: MascotProps) {
 
       {/* codette colorate */}
       <g strokeLinecap="round" strokeWidth="4">
-        <path d="M62 70l9-4" stroke="#58cc02" />
+        <path d="M62 70l9-4" stroke="#ff4f8b" />
         <path d="M124 62l9 3" stroke="#1cb0f6" />
         <path d="M92 58l7-5" stroke="#ff9600" />
         <path d="M146 102l8 3" stroke="#c77dff" />

@@ -164,7 +164,7 @@ export function PathScreen({ steps, progress, onOpenStep, onNotice, onShowFinal 
         </div>
         <button
           type="button"
-          className="btn btn--green btn--wide"
+          className="btn btn--primary btn--wide"
           onClick={() => {
             if (allDone) {
               onShowFinal();
