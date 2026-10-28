@@ -81,6 +81,19 @@ p {
   min-height: 100dvh;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .app {
   min-height: 100dvh;
 }
@@ -108,6 +121,7 @@ p {
   min-height: 100dvh;
   padding: 34px 24px calc(30px + env(safe-area-inset-bottom));
   overflow: hidden;
+  overscroll-behavior: none;
   background:
     radial-gradient(circle at 82% -8%, #fff3b0 0%, transparent 38%),
     linear-gradient(180deg, #58c4f2 0%, #8bdaf8 34%, #c6edff 62%, #ffe6f0 100%);
@@ -397,6 +411,74 @@ p {
   font-weight: 900;
   letter-spacing: 0.9px;
   text-transform: uppercase;
+}
+
+/* biglietto da grattare */
+
+.landing__scratch {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 1;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transition: opacity 0.45s ease;
+}
+
+.landing__scratch.is-revealed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.landing__skip {
+  position: absolute;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 7;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--primary-deep);
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+  box-shadow:
+    0 4px 0 rgba(126, 90, 170, 0.18),
+    0 10px 24px rgba(126, 90, 170, 0.16);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transform: translateX(-50%);
+  animation: scratch-skip-pulse 2.8s ease-in-out 2.6s infinite;
+}
+
+.landing__skip:active {
+  box-shadow: 0 2px 0 rgba(126, 90, 170, 0.2);
+}
+
+@keyframes scratch-skip-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 4px 0 rgba(126, 90, 170, 0.18),
+      0 10px 24px rgba(126, 90, 170, 0.16);
+  }
+  50% {
+    box-shadow:
+      0 4px 0 rgba(126, 90, 170, 0.18),
+      0 14px 32px rgba(217, 47, 106, 0.26);
+  }
 }
 
 /* ---------------------------------------------------------------- buttons */
@@ -1142,6 +1224,42 @@ p {
   font-size: 13.5px;
   font-weight: 600;
   line-height: 1.45;
+}
+
+.step-figure {
+  margin: 0 0 14px;
+}
+
+.step-figure__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  max-height: 280px;
+  border: 2px solid #eee7f7;
+  border-radius: 14px;
+  background: #f3edfb;
+}
+
+.step-figure__media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.step-figure--contain .step-figure__media img {
+  object-fit: contain;
+}
+
+.step-figure__caption {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .options {
@@ -2141,6 +2259,10 @@ p {
   .step-helper {
     margin-bottom: 12px;
     font-size: 12.5px;
+  }
+
+  .step-figure__media {
+    max-height: 170px;
   }
 
   .options {

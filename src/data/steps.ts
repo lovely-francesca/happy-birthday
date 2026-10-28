@@ -69,6 +69,13 @@ export const STEPS: Step[] = [
     question: 'Dove ci siamo conosciuti?',
     helper: 'Questa la puoi sbagliare solo se ci tieni poco. 😌',
     emoji: '💛',
+    // TODO: metti una vostra foto in `public/images/` e aggiorna src, alt e caption.
+    // Percorso relativo, senza `/` iniziale (funziona su GitHub Pages).
+    image: {
+      src: 'images/ricordo-esempio.svg',
+      alt: 'Foto d’esempio: sostituiscila con un vostro ricordo',
+      caption: 'Un ricordo tutto nostro 💛',
+    },
     options: [
       { id: 'mare', label: 'Al mare' },
       { id: 'scuola', label: 'A scuola' },

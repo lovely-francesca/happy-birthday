@@ -8,9 +8,10 @@
 ## 1. Esperienza
 
 1. La festeggiata inquadra un **QR code** (stampato o condiviso) e apre l'app sul telefono.
-2. La **landing page** mostra un cielo animato con nuvole in movimento: il titolo
-   **«Francesca's Birthday»** emerge dalle nuvole e, dopo 3 secondi, appare il pulsante
-   **«Iniziamo il viaggio»**.
+2. La **landing page** mostra un cielo animato con nuvole in movimento, coperto da un
+   **biglietto da grattare** a pagina intera. Grattando con il dito (o con «Rivela subito»)
+   si svela il titolo **«Francesca's Birthday»** e al ~45% di superficie grattata si passa
+   automaticamente al percorso.
 3. Al tocco del pulsante si apre il **percorso verticale** in stile Duolingo: tappe sbloccate
    in sequenza, tappe completate con stelline, tappe future bloccate.
 4. Tocca la tappa attiva → si apre un **mini-quiz** (risposta multipla, vero/falso, indovinello, rebus di emoji).
@@ -23,7 +24,8 @@
 
 - Palette cielo/rosa/giallo/viola (il verde resta solo per le risposte corrette), fonti
   arrotondate, bottoni con ombra 3D e feedback alla pressione.
-- Landing con nuvole CSS animate, titolo che sbuca dalle nuvole e CTA ritardata di 3 secondi.
+- Landing con nuvole CSS animate, biglietto da grattare su canvas (dito/mouse), svelamento
+  progressivo e fallback accessibile «Rivela subito».
 - Percorso a serpentina con linea tratteggiata che si colora man mano.
 - Nodi con icona, lucchetto, pulsazione sulla tappa corrente, stelline guadagnate.
 - Mascotte personalizzata (cupcake) con fumetto che cambia in base al progresso.
@@ -56,18 +58,21 @@ senza configurare il nome del repository.
 src/
   data/
     birthday.ts        # nome, età, data, messaggio finale, nascondiglio regalo
-    steps.ts           # i 7 step (testi, opzioni, risposta corretta, spiegazione)
+    steps.ts           # i 7 step (testi, opzioni, risposta corretta, spiegazione, immagini)
   lib/
     progress.ts        # load/save localStorage, encode/decode link di ripristino, reset
     sound.ts           # feedback audio sintetico (Web Audio)
     text.ts            # interpolazione {{name}} / {{age}} / {{date}}
     share.ts           # copia link, Web Share API con fallback
+    motion.ts          # hook prefers-reduced-motion
   components/
-    LandingScreen.tsx  # cielo animato, nuvole, titolo e CTA dopo 3 secondi
+    LandingScreen.tsx  # cielo animato, nuvole, titolo e biglietto da grattare
+    ScratchCover.tsx   # canvas dello scratch: tratti, soglia, dissolvenza
     Header.tsx         # brand, stelle, audio, menu, barra progresso
     PathScreen.tsx     # percorso SVG + nodi + mascotte + CTA
     PathNode.tsx       # stato completed / current / locked
     StepModal.tsx      # quiz, feedback, retry, schermata stelle
+    StepFigure.tsx     # immagine opzionale di una tappa (alt, caption, 404-safe)
     CompletionStars.tsx
     FinalScreen.tsx    # messaggio, regalo, statistiche, azioni
     Confetti.tsx       # coriandoli CSS
@@ -79,6 +84,9 @@ src/
   App.tsx              # stato globale, routing tra viste, persistenza
   index.css            # design system + animazioni
   main.tsx
+
+public/
+  images/              # foto delle tappe, servite come file statici da Pages
 ```
 
 ### Modello dati progressi
@@ -136,8 +144,11 @@ Anteprima live: <https://kimikone21-rgb.github.io/happy-birthday/> · card QR:
 Tutto il contenuto sta in due file:
 
 - `src/data/birthday.ts` → nome, età, data, messaggio, firma, nascondiglio del regalo.
-- `src/data/steps.ts` → domande, opzioni, risposte corrette e spiegazioni (i punti da cambiare
-  sono marcati con `TODO`).
+- `src/data/steps.ts` → domande, opzioni, risposte corrette, spiegazioni e immagini
+  (i punti da cambiare sono marcati con `TODO`).
+
+Le foto vanno in `public/images/` e si referenziano con path relativi (`images/foto.jpg`,
+mai `/images/foto.jpg`). Dettagli e limiti nella sezione «Immagini nelle tappe» del README.
 
 Dopo la modifica: commit → deploy automatico → rigenerare il QR solo se cambia l'URL.
 
@@ -153,11 +164,13 @@ Dopo la modifica: commit → deploy automatico → rigenerare il QR solo se camb
 | 4 | Personalizzazione testi (placeholder → reali) | da fare con i dati veri |
 | 5 | Deploy GitHub Pages + QR + prova su telefono | ✅ anteprima online + QR pronti |
 | 6 | Palette colorata + landing animata con nuvole | ✅ |
+| 7 | Landing «gratta e vinci» + immagini negli step | ✅ |
 
 ### Criteri di accettazione
 
 - [x] 7 step in italiano, sbloccati in sequenza, con feedback e retry.
-- [x] Landing con nuvole animate, titolo «Francesca's Birthday» e CTA dopo 3 secondi.
+- [x] Landing con nuvole animate, biglietto da grattare e fallback «Rivela subito».
+- [x] Immagini opzionali nelle tappe, statiche da `public/images/` (GitHub Pages).
 - [x] Palette colorata (cielo, rosa, giallo, viola) con verde semantico per le risposte corrette.
 - [x] Progressi e stelle persistono dopo refresh e chiusura del browser.
 - [x] Link di ripristino funzionante su un altro dispositivo.

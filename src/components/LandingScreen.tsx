@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Icon } from './Icon';
+import { ScratchCover } from './ScratchCover';
+import { usePrefersReducedMotion } from '../lib/motion';
+import { playSound, vibrate } from '../lib/sound';
 
 interface LandingScreenProps {
   onStart: () => void;
+  soundOn: boolean;
 }
 
 interface Cloud {
@@ -33,13 +37,30 @@ type CloudStyle = CSSProperties & {
   '--blur': string;
 };
 
-/** Landing page: cielo, nuvole in movimento e titolo che emerge dalle nuvole. */
-export function LandingScreen({ onStart }: LandingScreenProps) {
-  const [showCta, setShowCta] = useState(false);
+/**
+ * Landing page: cielo, nuvole in movimento e titolo che emerge dalle nuvole.
+ * In modalità normale è coperta da una pellicola da grattare; quando è
+ * sufficientemente grattata (o con «Rivela subito») parte il percorso.
+ */
+export function LandingScreen({ onStart, soundOn }: LandingScreenProps) {
+  const reducedMotion = usePrefersReducedMotion();
+  const [revealed, setRevealed] = useState(false);
+  const startedRef = useRef(false);
+  const timerRef = useRef<number | null>(null);
+
+  const finish = useCallback(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    setRevealed(true);
+    playSound('complete', soundOn);
+    vibrate([20, 40, 20]);
+    timerRef.current = window.setTimeout(onStart, 900);
+  }, [onStart, soundOn]);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setShowCta(true), 3000);
-    return () => window.clearTimeout(timer);
+    return () => {
+      if (timerRef.current !== null) window.clearTimeout(timerRef.current);
+    };
   }, []);
 
   return (
@@ -83,22 +104,37 @@ export function LandingScreen({ onStart }: LandingScreenProps) {
         </div>
       </div>
 
-      <div
-        className={`landing__cta-wrap${showCta ? ' is-visible' : ''}`}
-        aria-hidden={!showCta}
-      >
-        <button
-          type="button"
-          className="btn btn--primary btn--big btn--wide landing__cta"
-          onClick={onStart}
-          disabled={!showCta}
-          tabIndex={showCta ? 0 : -1}
-        >
-          Iniziamo il viaggio
-          <Icon name="arrow" size={20} />
-        </button>
-        <p className="landing__hint">Tocca per iniziare · 7 tappe</p>
-      </div>
+      {reducedMotion ? (
+        <div className="landing__cta-wrap is-visible">
+          <button
+            type="button"
+            className="btn btn--primary btn--big btn--wide landing__cta"
+            onClick={onStart}
+          >
+            Iniziamo il viaggio
+            <Icon name="arrow" size={20} />
+          </button>
+          <p className="landing__hint">Tocca per iniziare · 7 tappe</p>
+        </div>
+      ) : (
+        <>
+          <ScratchCover
+            revealed={revealed}
+            onComplete={finish}
+            onFirstScratch={() => playSound('tap', soundOn)}
+          />
+          {!revealed && (
+            <button type="button" className="landing__skip" onClick={finish}>
+              Rivela subito
+              <Icon name="arrow" size={16} />
+            </button>
+          )}
+          <p className="sr-only">
+            La pagina è coperta da un biglietto da grattare. Gratta con il dito oppure attiva
+            «Rivela subito» per iniziare il viaggio tra le tappe.
+          </p>
+        </>
+      )}
     </main>
   );
 }

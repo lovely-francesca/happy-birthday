@@ -24,10 +24,23 @@ export interface StepOption {
   label: string;
 }
 
+export interface StepImage {
+  /** Percorso relativo alla cartella `public/`, es. `images/ricordo.jpg`. Mai con `/` iniziale. */
+  src: string;
+  /** Testo alternativo obbligatorio, per screen reader e immagini non caricate. */
+  alt: string;
+  /** Didascalia opzionale mostrata sotto la foto. */
+  caption?: string;
+  /** `cover` (default) riempie lo spazio; `contain` mostra tutta la foto. */
+  fit?: 'cover' | 'contain';
+}
+
 interface StepBase {
   id: string;
   title: string;
   icon: IconName;
+  /** Immagine opzionale della tappa (foto-ricordo, indizio, ecc.). */
+  image?: StepImage;
 }
 
 export interface ChoiceStep extends StepBase {

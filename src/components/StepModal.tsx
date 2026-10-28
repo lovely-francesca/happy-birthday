@@ -4,6 +4,7 @@ import { t } from '../lib/text';
 import { playSound, vibrate } from '../lib/sound';
 import { Icon } from './Icon';
 import { CompletionStars } from './CompletionStars';
+import { StepFigure } from './StepFigure';
 
 interface StepModalProps {
   step: Step;
@@ -96,6 +97,8 @@ function FinalStepBody({ step, soundOn, onComplete }: BodyProps & { step: Extrac
         {t(step.question)}
       </h2>
       {step.helper && <p className="step-helper">{t(step.helper)}</p>}
+
+      {step.image && <StepFigure key={step.image.src} image={step.image} />}
 
       <button
         type="button"
@@ -194,6 +197,8 @@ function ChoiceStepBody({ step, soundOn, onComplete }: BodyProps & { step: Choic
           {t(step.question)}
         </h2>
         {step.helper && <p className="step-helper">{t(step.helper)}</p>}
+
+        {step.image && <StepFigure key={step.image.src} image={step.image} />}
 
         <div className="options" role="group" aria-labelledby="step-question">
           {step.options.map((option, optionIndex) => {

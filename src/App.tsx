@@ -176,7 +176,7 @@ export default function App() {
     <div className="app">
       <div className="app-shell">
         {view === 'landing' ? (
-          <LandingScreen onStart={startJourney} />
+          <LandingScreen soundOn={soundOn} onStart={startJourney} />
         ) : view === 'path' ? (
           <>
             <Header
