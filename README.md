@@ -5,7 +5,7 @@ italiano, percorso a serpentina, stelle, salvataggio dei progressi e gran finale
 **coriandoli e fuochi d’artificio**. Si apre con un **QR code** e vive su **GitHub Pages**
 (gratis, HTTPS, nessun backend).
 
-**Anteprima online:** <https://kimikone21-rgb.github.io/happy-birthday/>
+**Anteprima online:** <https://lovely-francesca.github.io/happy-birthday/>
 (nome già impostato su Francesca; età e data sono ancora segnaposto)
 
 ![stack](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)

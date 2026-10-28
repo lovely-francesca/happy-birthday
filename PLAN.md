@@ -134,8 +134,8 @@ Lo step finale è speciale: pulsante «Apri il regalo» → schermata finale.
    pronti da stampare (la card è raggiungibile anche online).
 4. Si stampa la card o si condivide il QR; l'app non richiede installazione.
 
-Anteprima live: <https://kimikone21-rgb.github.io/happy-birthday/> · card QR:
-<https://kimikone21-rgb.github.io/happy-birthday/qr-card.html>
+Anteprima live: <https://lovely-francesca.github.io/happy-birthday/> · card QR:
+<https://lovely-francesca.github.io/happy-birthday/qr-card.html>
 
 ---
 
