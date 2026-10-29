@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Risposta esatta">
+  <defs>
+    <linearGradient id="ok-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7fe3a7"/>
+      <stop offset="0.55" stop-color="#b8f4d0"/>
+      <stop offset="1" stop-color="#e9fff1"/>
+    </linearGradient>
+    <radialGradient id="ok-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ok-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#237d47" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#ok-bg)"/>
+  <circle cx="1010" cy="90" r="300" fill="url(#ok-glow)"/>
+
+  <g fill="#ffffff" opacity="0.55">
+    <text x="180" y="180" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="56" font-weight="800">✦</text>
+    <text x="960" y="300" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="40" font-weight="800">✦</text>
+    <text x="250" y="520" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="30" font-weight="800">✦</text>
+  </g>
+
+  <g filter="url(#ok-shadow)">
+    <circle cx="390" cy="337" r="150" fill="#ffffff"/>
+    <circle cx="390" cy="337" r="126" fill="#37b96b"/>
+    <path d="M325 340l44 44 88-96" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <g text-anchor="start" font-family="'Baloo 2', 'Nunito', sans-serif">
+    <text x="600" y="330" font-size="90" font-weight="800" fill="#1f7042">Esatto!</text>
+    <text x="603" y="398" font-family="'Nunito', sans-serif" font-size="38" font-weight="700" fill="#3f7d5b">Risposta perfetta, continua così.</text>
+  </g>
+
+  <g transform="translate(720 470)" fill="#ffd166">
+    <path d="M0 0l14 34 36 4-27 24 8 36-31-18-31 18 8-36-27-24 36-4z"/>
+  </g>
+  <g transform="translate(820 470) scale(0.75)" fill="#ffc93c">
+    <path d="M0 0l14 34 36 4-27 24 8 36-31-18-31 18 8-36-27-24 36-4z"/>
+  </g>
+</svg>

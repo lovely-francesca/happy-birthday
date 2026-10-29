@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { STEPS, STEP_IDS } from './data/steps';
-import { birthday } from './data/birthday';
 import {
   buildRestoreLink,
   clearRestoreHash,
@@ -155,23 +154,6 @@ export default function App() {
     showToast('Percorso azzerato. Si ricomincia! 🎂');
   };
 
-  const shareFinal = async () => {
-    const url = `${window.location.origin}${window.location.pathname}${window.location.search}`;
-    const text = `${birthday.shareText} ${birthday.name}, ${birthday.age} anni.`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: `Buon compleanno, ${birthday.name}!`, text, url });
-        return;
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') return;
-      }
-    }
-
-    const copied = await copyText(`${text} ${url}`);
-    showToast(copied ? 'Messaggio copiato negli appunti!' : 'Copia non riuscita. Riprova.');
-  };
-
   return (
     <div className="app">
       <div className="app-shell">
@@ -201,7 +183,6 @@ export default function App() {
             completed={progress.completed.length}
             totalSteps={STEPS.length}
             totalStars={totalStars}
-            onShare={shareFinal}
             onReplay={() => setConfirmReset(true)}
             onBackToPath={() => setView('path')}
           />

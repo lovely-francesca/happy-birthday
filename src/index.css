@@ -390,6 +390,7 @@ p {
 .landing__cta-wrap.is-visible {
   opacity: 1;
   transform: translateY(0);
+  animation: landing-fade-up 0.5s ease-out both;
 }
 
 .landing__cta {
@@ -1368,8 +1369,11 @@ p {
 
 .feedback {
   flex: none;
+  max-height: 62dvh;
   padding: 13px 20px calc(14px + env(safe-area-inset-bottom));
   border-top: 2px solid transparent;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   animation: slide-up 0.25s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1421,6 +1425,22 @@ p {
   font-size: 13px;
   font-weight: 600;
   line-height: 1.45;
+}
+
+.feedback .step-figure {
+  margin: 8px 0 10px;
+}
+
+.feedback .step-figure__media {
+  aspect-ratio: 16 / 9;
+  max-height: 128px;
+  border-color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.feedback .step-figure__caption {
+  margin-top: 4px;
+  font-size: 11px;
 }
 
 .feedback .btn {
@@ -1501,6 +1521,25 @@ p {
   width: 168px;
   height: 156px;
   margin-bottom: 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gift-stage:disabled {
+  cursor: default;
+}
+
+.gift-stage__grow {
+  display: grid;
+  place-items: center;
+  transform: scale(var(--gift-scale, 1));
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
 }
 
 .gift-stage__box {
@@ -1544,16 +1583,73 @@ p {
   animation-delay: 1s;
 }
 
+.gift-stage.is-bursting .gift-stage__spark,
+.gift-stage.is-bursting .gift-stage__ring {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.gift-stage.is-bursting .gift-stage__grow {
+  animation: gift-explode 0.6s ease-out forwards;
+}
+
+.gift-stage.is-bursting .gift-stage__box {
+  animation: none;
+}
+
+.gift-taps {
+  margin: 0;
+  color: var(--primary-strong);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.gift-meter {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0 12px;
+}
+
+.gift-meter span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ece5f5;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.gift-meter span.is-on {
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.gift-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gift-burst__piece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 6px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: gift-burst 0.85s ease-out var(--delay, 0s) forwards;
+}
+
 .final-step .step-question {
   font-size: 23px;
 }
 
 .final-step .step-helper {
   max-width: 340px;
-}
-
-.final-step__cta {
-  margin-top: 4px;
 }
 
 .final-step__hint {
@@ -2112,6 +2208,36 @@ p {
   }
 }
 
+@keyframes gift-explode {
+  0% {
+    transform: scale(var(--gift-scale, 1.5)) rotate(0deg);
+    opacity: 1;
+  }
+  55% {
+    transform: scale(2.4) rotate(-8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.1) rotate(10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gift-burst {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot))
+      scale(1);
+    opacity: 0;
+  }
+}
+
 @keyframes twinkle {
   0%,
   100% {
@@ -2263,6 +2389,14 @@ p {
 
   .step-figure__media {
     max-height: 170px;
+  }
+
+  .feedback .step-figure__media {
+    max-height: 78px;
+  }
+
+  .gift-meter {
+    margin-bottom: 8px;
   }
 
   .options {

@@ -10,13 +10,15 @@
 1. La festeggiata inquadra un **QR code** (stampato o condiviso) e apre l'app sul telefono.
 2. La **landing page** mostra un cielo animato con nuvole in movimento, coperto da un
    **biglietto da grattare** a pagina intera. Grattando con il dito (o con «Rivela subito»)
-   si svela il titolo **«Francesca's Birthday»** e al ~45% di superficie grattata si passa
-   automaticamente al percorso.
+   si svela il titolo **«Francesca's Birthday»**; al ~45% di superficie grattata la pellicola
+   sfuma e compare la CTA **«Iniziamo il viaggio»**. Il percorso parte solo premendo la CTA.
 3. Al tocco del pulsante si apre il **percorso verticale** in stile Duolingo: tappe sbloccate
    in sequenza, tappe completate con stelline, tappe future bloccate.
 4. Tocca la tappa attiva → si apre un **mini-quiz** (risposta multipla, vero/falso, indovinello, rebus di emoji).
 5. Ogni risposta corretta fa avanzare; una risposta sbagliata invita a riprovare (e riduce le stelle).
-6. Alla fine del settimo step: **schermata finale** con messaggio, sorpresa, coriandoli e fuochi d'artificio.
+   Dopo la risposta, se configurata, compare un’immagine dedicata all’esito (giusto/sbagliato).
+6. Ultima tappa: si tocca il pacco **5 volte**, si ingrandisce progressivamente, poi esplode in
+   un burst di coriandoli e si passa alla **schermata finale** con messaggio, sorpresa e fuochi d'artificio.
 7. Se chiude il browser, al rientro riprende esattamente da dove era. Su un altro telefono può
    riprendere tramite **link di ripristino**.
 
@@ -25,12 +27,13 @@
 - Palette cielo/rosa/giallo/viola (il verde resta solo per le risposte corrette), fonti
   arrotondate, bottoni con ombra 3D e feedback alla pressione.
 - Landing con nuvole CSS animate, biglietto da grattare su canvas (dito/mouse), svelamento
-  progressivo e fallback accessibile «Rivela subito».
+  progressivo, CTA «Iniziamo il viaggio» e fallback accessibile «Rivela subito».
 - Percorso a serpentina con linea tratteggiata che si colora man mano.
 - Nodi con icona, lucchetto, pulsazione sulla tappa corrente, stelline guadagnate.
 - Mascotte personalizzata (cupcake) con fumetto che cambia in base al progresso.
 - Suoni brevi (Web Audio, nessun file audio), vibrazione su mobile, toggle audio.
-- Barra di avanzamento, contatore stelle, feedback verde/rosso con spiegazione.
+- Barra di avanzamento, contatore stelle, feedback verde/rosso con spiegazione e immagine
+  opzionale per esito corretto/sbagliato.
 - Animazioni rispettose di `prefers-reduced-motion`.
 
 ---
@@ -110,7 +113,8 @@ interface Progress {
 ### Stati del quiz
 
 `question` → scelta → `feedback` (giusto: verde; sbagliato: rosso + riprova) → `stars` → chiusura.
-Lo step finale è speciale: pulsante «Apri il regalo» → schermata finale.
+Lo step finale è speciale: il pacco è un pulsante che va premuto 5 volte (cresce a ogni tocco,
+poi esplode in un burst di coriandoli) → schermata finale.
 
 ---
 
@@ -120,7 +124,9 @@ Lo step finale è speciale: pulsante «Apri il regalo» → schermata finale.
 - Mascotte grande, «Buon compleanno, {nome}!», età, messaggio personale e firma.
 - Card «La tua sorpresa» con il nascondiglio del regalo.
 - Statistiche: 7/7 tappe, stelle totali.
-- Azioni: condividi, rigioca (con conferma), rivedi il percorso.
+- Azioni: rigioca (con conferma), rivedi il percorso. **Nessuna condivisione.**
+- Il pacco dell’ultima tappa si ingrandisce a ogni tocco e al quinto esplode con i coriandoli;
+  con `prefers-reduced-motion` niente burst e passaggio immediato al finale.
 - Performance: canvas con `devicePixelRatio`, cleanup di `requestAnimationFrame` allo smontaggio,
   animazioni disattivate con `prefers-reduced-motion`.
 
@@ -165,12 +171,17 @@ Dopo la modifica: commit → deploy automatico → rigenerare il QR solo se camb
 | 5 | Deploy GitHub Pages + QR + prova su telefono | ✅ anteprima online + QR pronti |
 | 6 | Palette colorata + landing animata con nuvole | ✅ |
 | 7 | Landing «gratta e vinci» + immagini negli step | ✅ |
+| 8 | Reveal prima della CTA, immagini di feedback, regalo a 5 tocchi, via la condivisione | ✅ |
 
 ### Criteri di accettazione
 
 - [x] 7 step in italiano, sbloccati in sequenza, con feedback e retry.
-- [x] Landing con nuvole animate, biglietto da grattare e fallback «Rivela subito».
-- [x] Immagini opzionali nelle tappe, statiche da `public/images/` (GitHub Pages).
+- [x] Landing con nuvole animate, biglietto da grattare, CTA dopo lo svelamento e fallback
+      «Rivela subito» (nessun passaggio automatico al percorso).
+- [x] Immagini opzionali nelle tappe, statiche da `public/images/` (GitHub Pages), con immagine
+      dedicata all’esito corretto/sbagliato mostrata solo dopo la risposta.
+- [x] Regalo finale a 5 tocchi con crescita progressiva, esplosione di coriandoli e passaggio
+      alla schermata finale; nessun tasto di condivisione.
 - [x] Palette colorata (cielo, rosa, giallo, viola) con verde semantico per le risposte corrette.
 - [x] Progressi e stelle persistono dopo refresh e chiusura del browser.
 - [x] Link di ripristino funzionante su un altro dispositivo.

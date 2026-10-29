@@ -9,7 +9,6 @@ interface FinalScreenProps {
   completed: number;
   totalSteps: number;
   totalStars: number;
-  onShare: () => Promise<void> | void;
   onReplay: () => void;
   onBackToPath: () => void;
 }
@@ -18,7 +17,6 @@ export function FinalScreen({
   completed,
   totalSteps,
   totalStars,
-  onShare,
   onReplay,
   onBackToPath,
 }: FinalScreenProps) {
@@ -82,10 +80,6 @@ export function FinalScreen({
         </div>
 
         <div className="final__actions">
-          <button type="button" className="btn btn--primary btn--wide" onClick={() => void onShare()}>
-            <Icon name="share" size={20} />
-            CONDIVIDI
-          </button>
           <button type="button" className="btn btn--ghost btn--wide" onClick={onReplay}>
             <Icon name="reset" size={20} />
             RIGIOCA IL PERCORSO

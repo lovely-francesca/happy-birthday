@@ -4,6 +4,7 @@ import { t } from '../lib/text';
 
 interface StepFigureProps {
   image: StepImage;
+  className?: string;
 }
 
 /**
@@ -11,13 +12,17 @@ interface StepFigureProps {
  * Se il file manca non viene mostrato nulla (niente icona “immagine rotta”):
  * lo step resta giocabile.
  */
-export function StepFigure({ image }: StepFigureProps) {
+export function StepFigure({ image, className }: StepFigureProps) {
   const [failed, setFailed] = useState(false);
 
   if (failed) return null;
 
   return (
-    <figure className={`step-figure${image.fit === 'contain' ? ' step-figure--contain' : ''}`}>
+    <figure
+      className={['step-figure', className, image.fit === 'contain' ? 'step-figure--contain' : '']
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className="step-figure__media">
         <img
           src={image.src}

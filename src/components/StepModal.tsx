@@ -1,10 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
+import type { CSSProperties } from 'react';
 import type { ChoiceStep, Step } from '../types';
 import { t } from '../lib/text';
 import { playSound, vibrate } from '../lib/sound';
+import { usePrefersReducedMotion } from '../lib/motion';
 import { Icon } from './Icon';
 import { CompletionStars } from './CompletionStars';
 import { StepFigure } from './StepFigure';
+
+const GIFT_TAPS = 5;
+const GIFT_BURST_MS = 850;
+const BURST_COLORS = ['#ffd166', '#ff4f8b', '#5fc8f6', '#a06cf0', '#ff9600', '#ff7ba5', '#ffffff'];
+const BURST_PIECES = Array.from({ length: 30 }, (_, index) => {
+  const angle = (index / 30) * Math.PI * 2 + (index % 3) * 0.12;
+  const distance = 64 + (index % 6) * 16;
+  return {
+    dx: Math.round(Math.cos(angle) * distance),
+    dy: Math.round(Math.sin(angle) * distance - 12),
+    rot: (index % 2 === 0 ? 1 : -1) * (140 + index * 11),
+    color: BURST_COLORS[index % BURST_COLORS.length],
+    delay: (index % 5) * 0.025,
+  };
+});
 
 interface StepModalProps {
   step: Step;
@@ -82,14 +99,91 @@ interface BodyProps {
 }
 
 function FinalStepBody({ step, soundOn, onComplete }: BodyProps & { step: Extract<Step, { kind: 'final' }> }) {
+  const reducedMotion = usePrefersReducedMotion();
+  const [taps, setTaps] = useState(0);
+  const [bursting, setBursting] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const tapGift = () => {
+    if (bursting) return;
+    const next = taps + 1;
+    setTaps(next);
+
+    if (next >= GIFT_TAPS) {
+      setBursting(true);
+      playSound('complete', soundOn);
+      vibrate([30, 60, 30]);
+      timeoutRef.current = window.setTimeout(() => onComplete(3), reducedMotion ? 0 : GIFT_BURST_MS);
+      return;
+    }
+
+    playSound('tap', soundOn);
+    vibrate(12);
+  };
+
+  const remaining = Math.max(0, GIFT_TAPS - taps);
+  const scale = 1 + Math.min(taps, GIFT_TAPS - 1) * 0.13;
+  const instruction = bursting
+    ? 'Sorpresa! 🎉'
+    : taps === 0
+      ? 'Premi 5 volte sul pacco'
+      : remaining === 1
+        ? 'Ancora un tocco!'
+        : `Ancora ${remaining} tocchi`;
+  const giftStyle = { '--gift-scale': scale } as CSSProperties;
+
   return (
     <div className="modal__body final-step">
-      <div className="gift-stage" aria-hidden="true">
+      <button
+        type="button"
+        className={`gift-stage${bursting ? ' is-bursting' : ''}`}
+        style={giftStyle}
+        onClick={tapGift}
+        disabled={bursting}
+        aria-label={
+          bursting
+            ? 'Il regalo sta esplodendo'
+            : `Premi il pacco: ${remaining} ${remaining === 1 ? 'tocco' : 'tocchi'} ancora`
+        }
+      >
         <span className="gift-stage__spark gift-stage__spark--1">✦</span>
         <span className="gift-stage__spark gift-stage__spark--2">✦</span>
         <span className="gift-stage__spark gift-stage__spark--3">✦</span>
         <span className="gift-stage__ring" />
-        <span className="gift-stage__box">🎁</span>
+        <span className="gift-stage__grow">
+          <span className="gift-stage__box" aria-hidden="true">
+            🎁
+          </span>
+        </span>
+        {bursting && !reducedMotion && (
+          <span className="gift-burst" aria-hidden="true">
+            {BURST_PIECES.map((piece, index) => {
+              const style = {
+                '--dx': `${piece.dx}px`,
+                '--dy': `${piece.dy}px`,
+                '--rot': `${piece.rot}deg`,
+                '--delay': `${piece.delay}s`,
+                backgroundColor: piece.color,
+              } as CSSProperties;
+              return <span key={index} className="gift-burst__piece" style={style} />;
+            })}
+          </span>
+        )}
+      </button>
+
+      <p className="gift-taps" aria-live="polite">
+        {instruction}
+      </p>
+      <div className="gift-meter" aria-hidden="true">
+        {Array.from({ length: GIFT_TAPS }, (_, index) => (
+          <span key={index} className={index < taps ? 'is-on' : ''} />
+        ))}
       </div>
 
       <p className="step-kicker">Ultima tappa</p>
@@ -100,20 +194,11 @@ function FinalStepBody({ step, soundOn, onComplete }: BodyProps & { step: Extrac
 
       {step.image && <StepFigure key={step.image.src} image={step.image} />}
 
-      <button
-        type="button"
-        className="btn btn--primary btn--wide btn--big final-step__cta"
-        onClick={() => {
-          playSound('complete', soundOn);
-          vibrate([30, 60, 30]);
-          onComplete(3);
-        }}
-      >
-        {step.cta}
-        <Icon name="sparkles" size={20} />
-      </button>
-
-      <p className="final-step__hint">Preparati: tra poco arrivano coriandoli e fuochi d’artificio. 🎆</p>
+      <p className="final-step__hint">
+        {bursting
+          ? 'Buon compleanno! 🎉'
+          : 'Preparati: tra poco arrivano coriandoli e fuochi d’artificio. 🎆'}
+      </p>
     </div>
   );
 }
@@ -126,6 +211,7 @@ function ChoiceStepBody({ step, soundOn, onComplete }: BodyProps & { step: Choic
   const [done, setDone] = useState(false);
 
   const isCorrect = selected === step.correctId;
+  const feedbackImage = isCorrect ? step.feedbackImages?.correct : step.feedbackImages?.wrong;
 
   const selectOption = (optionId: string) => {
     if (answered) return;
@@ -250,6 +336,9 @@ function ChoiceStepBody({ step, soundOn, onComplete }: BodyProps & { step: Choic
             </span>
             <strong>{isCorrect ? 'Esatto!' : 'Non proprio...'}</strong>
           </div>
+          {feedbackImage && (
+            <StepFigure key={feedbackImage.src} image={feedbackImage} className="feedback__figure" />
+          )}
           <p>
             {t(
               isCorrect

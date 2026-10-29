@@ -34,10 +34,12 @@ Per questo progetto conviene `public/images/`.
    tutta la pagina (dentro `.app-shell`, 100dvh).
 2. Il canvas è una «pellicola» colorata con la scritta *«Gratta per scoprire»*.
 3. Dito/mouse grattano via la pellicola (`destination-out`) rivelando il contenuto sottostante.
-4. Quando è grattato **~45%** della superficie: la pellicola sfuma (≈450 ms) e dopo ≈900 ms
-   l'app passa automaticamente al percorso (`onStart`). Avviene **una sola volta**.
+4. Quando è grattato **~45%** della superficie: la pellicola sfuma (≈450 ms) e si resta sulla
+   landing, dove compare la CTA **«Iniziamo il viaggio»**. Si entra nel percorso **solo**
+   premendola. Avviene **una sola volta**.
 5. Fallback accessibile: pulsante reale **«Rivela subito»** sempre visibile sopra il canvas
-   (44 px, safe-area) che svela e avvia subito. Unico elemento raggiungibile da tastiera.
+   (44 px, safe-area) che svela la landing (non avvia il percorso). Unico elemento raggiungibile
+   da tastiera.
 6. Con `prefers-reduced-motion: reduce`: **niente canvas**, si mostra direttamente la CTA
    esistente «Iniziamo il viaggio» (nessun auto-advance). Se l'utente cambia l'impostazione a
    runtime, il canvas smonta e compare la CTA.
@@ -64,11 +66,11 @@ interface ScratchCoverProps {
 ### `LandingScreen.tsx` (modifica)
 
 - Rimuove `showCta` + timer di 3 s.
-- Stato: `revealed`, `startedRef`, `timerRef`; `finish()` con guardia `startedRef`,
-  `setRevealed(true)` → `playSound('complete')` → `setTimeout(onStart, 900)`.
-- Cleanup del timer allo smontaggio (evita `setView` su componente smontato).
-- Render: `{!reduced && <ScratchCover ... />}`, pulsante skip sopra il canvas (z-index),
-  CTA originale solo nel ramo `reduced`, testo istruzioni `sr-only`.
+- Stato: `revealed`, `revealedRef`; `finish()` con guardia, `setRevealed(true)` →
+  `playSound('complete')` → vibrazione. **Nessun** `setTimeout(onStart)`.
+- Render: `{!reduced && <ScratchCover ... />}`, pulsante skip sopra il canvas (z-index) finché
+  non è svelato, CTA «Iniziamo il viaggio» nel ramo `reduced` **e** dopo lo svelamento,
+  testo istruzioni `sr-only`.
 - Il canvas ha `aria-hidden="true"`; l'istruzione per screen reader sta nel testo sr-only e
   nel `aria-label` del pulsante.
 
@@ -123,10 +125,10 @@ sopra `.landing__cloudbank` (z 3) e sotto il pulsante skip (z 7).
   alto 100dvh.
 - `pointercancel` gestito (gesture di sistema dal bordo).
 - DPR capped a 2 → memoria contenuta; niente `requestAnimationFrame` continuo, solo eventi.
-- `prefers-reduced-motion`: nessun canvas, CTA subito visibile, nessun auto-advance.
-- Tastiera: Tab → «Rivela subito», Enter → reveal + start.
+- `prefers-reduced-motion`: nessun canvas, CTA subito visibile.
+- Tastiera: Tab → «Rivela subito», Enter → reveal; poi Tab sulla CTA per iniziare.
 - `aria-hidden` sul canvas; hint testuale nel canvas non è letto (bene), istruzioni in sr-only.
-- Auto-advance a 900 ms: abbastanza per leggere il titolo, non troppo per sembrare bloccato.
+- Lo svelamento resta visibile: l’utente decide quando premere la CTA (nessun auto-advance).
 
 ---
 
@@ -254,8 +256,9 @@ Dopo ogni fase il progetto deve compilare (`npm run typecheck`).
 **Scratch — desktop**
 - La pellicola copre tutto (titolo compreso); nessun flash del contenuto al primo paint.
 - Drag veloce senza buchi; il tratto continua se il cursore esce e rientra (pointer capture).
-- ~45% → dissolvenza + passaggio al percorso **una sola volta**; nessun doppio suono.
-- «Rivela subito» funziona prima/durante/dopo; doppio click non avvia due volte.
+- ~45% → dissolvenza + landing con CTA **«Iniziamo il viaggio»**; il percorso parte solo al
+  click. Nessun doppio suono.
+- «Rivela subito» funziona prima/durante/dopo; doppio click non duplica lo svelamento.
 - Resize prima di grattare → pellicola ridisegnata; resize dopo → tratti conservati.
 - DevTools paint flashing: nessun repaint continuo da fermo.
 
@@ -265,9 +268,9 @@ Dopo ogni fase il progetto deve compilare (`npm run typecheck`).
 - Secondo dito ignorato; `pointercancel` non lascia il tratto appeso.
 
 **Scratch — accessibilità**
-- Tab raggiunge solo «Rivela subito»; Enter svela e avvia.
+- Tab raggiunge solo «Rivela subito»; Enter svela la landing; la CTA è raggiungibile dopo.
 - VoiceOver/TalkBack legge istruzione + pulsante, non il canvas.
-- Emulazione `prefers-reduced-motion: reduce` → CTA subito, nessun canvas/auto-advance.
+- Emulazione `prefers-reduced-motion: reduce` → CTA subito, nessun canvas.
 - Toggle a runtime → ramo corretto, nessun canvas «bloccato».
 
 **Immagini**
@@ -288,8 +291,8 @@ Dopo ogni fase il progetto deve compilare (`npm run typecheck`).
 | Canvas non inizializzato prima del paint → flash del titolo | `useLayoutEffect` + pellicola disegnata subito; CTA nascosta via CSS |
 | Font Baloo non pronto sul canvas | Ripaint a `document.fonts.ready` se non ancora grattato |
 | Resize mobile azzera la grattatura | Ripaint solo se pristine; altrimenti bitmap scalato via CSS |
-| Soglia raggiunta col dito ancora giù | Guardia `doneRef`/`startedRef`, stop interval, fade e cleanup |
-| Doppio avvio (skip + canvas) | `startedRef` condiviso in `LandingScreen` |
+| Soglia raggiunta col dito ancora giù | Guardia `doneRef`/`revealedRef`, stop interval, fade e cleanup |
+| Doppio svelamento (skip + canvas) | `revealedRef` condiviso in `LandingScreen` |
 | Immagini pesanti/lente | `lazy` + `decoding=async`, spazio riservato con `aspect-ratio`, linee guida peso |
 | 404 immagine | `onError` → `null`, nessuna icona rotta |
 | Cache Pages sulla foto sostituita | Rinominare il file e aggiornare `src` |

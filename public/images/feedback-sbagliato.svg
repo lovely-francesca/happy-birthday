@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" role="img" aria-label="Risposta sbagliata">
+  <defs>
+    <linearGradient id="ko-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffb3b3"/>
+      <stop offset="0.55" stop-color="#ffd6d6"/>
+      <stop offset="1" stop-color="#fff0ef"/>
+    </linearGradient>
+    <radialGradient id="ko-glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ko-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#b32d2d" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#ko-bg)"/>
+  <circle cx="990" cy="110" r="300" fill="url(#ko-glow)"/>
+
+  <g fill="#ffffff" opacity="0.5">
+    <text x="190" y="190" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="52" font-weight="800">✦</text>
+    <text x="930" y="330" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="38" font-weight="800">✦</text>
+    <text x="260" y="520" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="28" font-weight="800">✦</text>
+  </g>
+
+  <g filter="url(#ko-shadow)">
+    <circle cx="390" cy="337" r="150" fill="#ffffff"/>
+    <circle cx="390" cy="337" r="126" fill="#ff5a5a"/>
+    <path d="M340 287l100 100M440 287l-100 100" fill="none" stroke="#ffffff" stroke-width="26" stroke-linecap="round"/>
+  </g>
+
+  <g text-anchor="start" font-family="'Baloo 2', 'Nunito', sans-serif">
+    <text x="600" y="330" font-size="90" font-weight="800" fill="#b32d2d">Riprova!</text>
+    <text x="603" y="398" font-family="'Nunito', sans-serif" font-size="38" font-weight="700" fill="#8d4a4a">Non era questa: ci sei quasi.</text>
+  </g>
+
+  <g transform="translate(700 470)">
+    <circle r="34" fill="#ffffff" opacity="0.7"/>
+    <text x="0" y="14" text-anchor="middle" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="44" font-weight="800" fill="#ff5a5a">?</text>
+  </g>
+  <g transform="translate(820 470)">
+    <circle r="26" fill="#ffffff" opacity="0.5"/>
+    <text x="0" y="11" text-anchor="middle" font-family="'Baloo 2', 'Nunito', sans-serif" font-size="34" font-weight="800" fill="#ff8a8a">?</text>
+  </g>
+</svg>

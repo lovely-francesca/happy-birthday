@@ -1,5 +1,18 @@
-import type { Step } from '../types';
+import type { Step, StepFeedbackImages } from '../types';
 import { birthday } from './birthday';
+
+// TODO: immagini segnaposto condivise da tutte le tappe. Per personalizzarle, sostituisci
+// il blocco `feedbackImages` dentro ogni step con foto specifiche (src, alt, caption).
+const FEEDBACK_IMAGES: StepFeedbackImages = {
+  correct: {
+    src: 'images/feedback-giusto.svg',
+    alt: 'Risposta esatta: cuoricini e stelline',
+  },
+  wrong: {
+    src: 'images/feedback-sbagliato.svg',
+    alt: 'Risposta sbagliata: faccina pensierosa',
+  },
+};
 
 /**
  * ✏️ PERSONALIZZA QUI
@@ -25,6 +38,7 @@ export const STEPS: Step[] = [
     correctId: `age-${birthday.age}`,
     correctExplanation: 'Esatto! Oggi {{name}} spegne {{age}} candeline. 🎂',
     wrongExplanation: 'Ops, riprova: il numero giusto è quello che festeggiamo oggi!',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     kind: 'choice',
@@ -43,6 +57,7 @@ export const STEPS: Step[] = [
     correctId: 'festa',
     correctExplanation: 'Ovvio! Torta, palloncini e regali: il programma di oggi. 🎉',
     wrongExplanation: 'Mmm, non ci siamo. Guarda bene la torta... 🎂',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     kind: 'choice',
@@ -58,6 +73,7 @@ export const STEPS: Step[] = [
     correctId: 'vero',
     correctExplanation: 'Verissimo. Oggi si festeggia e basta. 🎉',
     wrongExplanation: 'Come falso? Oggi è il tuo giorno, hai tutti i permessi!',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     // TODO: sostituisci questa domanda con un ricordo vero (dove vi siete conosciuti,
@@ -85,6 +101,7 @@ export const STEPS: Step[] = [
     correctId: 'festa',
     correctExplanation: 'Esatto! E da quella festa non ci siamo più separati. 💛',
     wrongExplanation: 'Non proprio... ma ogni scusa è buona per ricordarlo insieme.',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     kind: 'choice',
@@ -103,6 +120,7 @@ export const STEPS: Step[] = [
     correctId: 'buco',
     correctExplanation: 'Brava! Più terra togli, più il buco diventa grande. 🕳️',
     wrongExplanation: 'Quasi! Ma se togli una candela, la torta non diventa più grande...',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     kind: 'choice',
@@ -121,6 +139,7 @@ export const STEPS: Step[] = [
     correctId: 'torta',
     correctExplanation: 'Certo: la torta! E possibilmente anche una seconda fetta. 🍰',
     wrongExplanation: 'Davvero? Nessuna festa è mai iniziata con la sveglia alle 6:00.',
+    feedbackImages: FEEDBACK_IMAGES,
   },
   {
     kind: 'final',
@@ -128,8 +147,7 @@ export const STEPS: Step[] = [
     title: 'La sorpresa',
     icon: 'gift',
     question: 'Ultima tappa: il regalo ti sta aspettando.',
-    helper: 'Non è qui dentro, ma quasi. Premi il pulsante e scopri dove si nasconde.',
-    cta: 'Apri il regalo',
+    helper: 'Non è qui dentro, ma quasi. Premi cinque volte sul pacco e scopri dove si nasconde.',
   },
 ];
 

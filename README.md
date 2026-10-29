@@ -32,7 +32,7 @@ Tutto il contenuto è in due file:
 | File | Cosa cambiare |
 | --- | --- |
 | `src/data/birthday.ts` | Nome, età, data, messaggio finale, firma, nascondiglio del regalo |
-| `src/data/steps.ts` | Le 7 domande, opzioni, risposta corretta, spiegazioni e immagini |
+| `src/data/steps.ts` | Le 7 domande, opzioni, risposta corretta, spiegazioni, immagini e immagini di feedback |
 
 I punti pensati per essere sostituiti sono marcati con `TODO`. Nei testi puoi usare
 `{{name}}`, `{{age}}` e `{{date}}` come segnaposto.
@@ -66,6 +66,31 @@ image: {
 
 Il campo funziona sia negli step con le opzioni sia nella tappa finale ed è **opzionale**.
 Se il file manca, la figura sparisce e lo step resta giocabile.
+
+### Immagini di feedback (risposta giusta / sbagliata)
+
+Ogni step a scelta multipla può mostrare **un’immagine diversa a seconda della risposta**,
+ma soltanto **dopo** che si è risposto. Le immagini compaiono nel pannello di feedback, sopra
+la spiegazione:
+
+```ts
+feedbackImages: {
+  correct: {
+    src: 'images/giusto-1.svg',
+    alt: 'Risposta esatta: cuoricini e stelline',
+  },
+  wrong: {
+    src: 'images/sbagliato-1.svg',
+    alt: 'Risposta sbagliata: faccina pensierosa',
+  },
+},
+```
+
+- Entrambi i campi sono opzionali: se ne manca uno, quel pannello resta senza immagine.
+- Se il file manca non viene mostrato nulla (niente icona rotta) e lo step resta giocabile.
+- «Riprova» azzera il feedback: l’immagine sparisce e ricompare solo alla risposta successiva.
+- Nel repository ci sono due segnaposto condivisi (`feedback-giusto.svg`,
+  `feedback-sbagliato.svg`): sostituiscili con foto specifiche per ogni tappa.
 
 Regole pratiche per GitHub Pages:
 
@@ -149,28 +174,34 @@ Il QR si rigenera solo se cambia l’URL.
 ```
 Landing (cielo + nuvole animate) coperta da un biglietto da grattare
    └── gratta con il dito (o «Rivela subito»)
-         └── si svela «Francesca's Birthday» e parte il percorso
-               └── Percorso (7 nodi)
+         └── si svela «Francesca's Birthday» e la CTA «Iniziamo il viaggio»
+               └── solo premendo la CTA si entra nel percorso (7 nodi)
                      └── tocca la tappa attiva
                            └── mini-quiz (scelta multipla / vero-falso / indovinello / emoji / foto)
-                                 ├── risposta giusta → feedback verde → stelle (3/2/1) → tappa successiva
-                                 └── risposta sbagliata → feedback rosso → riprova
-                     └── ultima tappa → schermata finale + coriandoli + fuochi d’artificio
+                                 ├── risposta giusta → feedback verde (+ immagine) → stelle (3/2/1)
+                                 └── risposta sbagliata → feedback rosso (+ immagine) → riprova
+                     └── ultima tappa → 5 tocchi sul pacco → esplosione di coriandoli
+                           └── schermata finale + fuochi d’artificio
 ```
 
 - **Landing**: nuvole CSS animate, titolo che sbuca dalle nuvole e pellicola da grattare a
-  pagina intera. Al ~45% di superficie grattata si passa al percorso; chi non può o non vuole
-  grattare usa «Rivela subito». Compare solo se non ci sono ancora progressi salvati.
+  pagina intera. Al ~45% di superficie grattata la pellicola sfuma e si resta **sulla landing**,
+  con la CTA «Iniziamo il viaggio»: si entra nel percorso solo premendola. Chi non può o non
+  vuole grattare usa «Rivela subito», che svela la landing senza avviare il percorso. Compare
+  solo se non ci sono ancora progressi salvati.
 - **Immagini**: ogni tappa può avere una foto in `public/images/`, con `alt` obbligatorio e
-  didascalia opzionale. Se il file manca, la tappa funziona comunque.
+  didascalia opzionale. Dopo la risposta si può mostrare un’immagine dedicata per l’esito
+  corretto e una per quello sbagliato. Se il file manca, la tappa funziona comunque.
 - **Palette**: cielo, rosa, giallo e viola; il verde resta solo per le risposte corrette.
 - **Stelle**: 3 senza errori, 2 con un errore, 1 con due o più (massimo 21).
-- **Finale**: messaggio personale, età, sorpresa, statistiche, condivisione, rigioca,
-  “Rivedi i fuochi” per rilanciare l’effetto.
+- **Finale**: il pacco è un pulsante: a ogni tocco (fino a 5) si ingrandisce, poi esplode in un
+  burst di coriandoli e si passa alla schermata finale. Restano messaggio personale, età,
+  sorpresa, statistiche, rigioca e “Rivedi i fuochi”. Nessun tasto di condivisione.
 - **Audio**: effetti sintetizzati con Web Audio, nessun file da caricare; toggle in alto.
 - **Accessibilità**: focus visibile, ruoli ARIA, navigazione da tastiera (Esc chiude),
-  fallback «Rivela subito» per la landing, rispetto di `prefers-reduced-motion`
-  (in quel caso niente grattatura: CTA classica).
+  fallback «Rivela subito» per la landing, pacco finale attivabile con Enter/Spazio e ridotto
+  a niente esplosione con `prefers-reduced-motion` (in quel caso anche la landing salta la
+  grattatura e mostra subito la CTA).
 - **Mobile-first**: layout a colonna, CTA sticky, safe-area iPhone, vibrazione leggera.
 
 ## Struttura
@@ -179,7 +210,7 @@ Landing (cielo + nuvole animate) coperta da un biglietto da grattare
 public/images/     foto delle tappe (file statici, serviti da GitHub Pages)
 src/
   data/            contenuti personalizzabili (testi + immagini degli step)
-  lib/             progressi, link di ripristino, audio, condivisione, motion
+  lib/             progressi, link di ripristino, audio, appunti, motion
   components/      landing con scratch, percorso, nodi, modal quiz, finale, coriandoli, fuochi
   App.tsx          stato globale e viste
   index.css        design system e animazioni

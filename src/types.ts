@@ -35,6 +35,12 @@ export interface StepImage {
   fit?: 'cover' | 'contain';
 }
 
+/** Immagini mostrate solo dopo la risposta: una per esito corretto, una per esito sbagliato. */
+export interface StepFeedbackImages {
+  correct?: StepImage;
+  wrong?: StepImage;
+}
+
 interface StepBase {
   id: string;
   title: string;
@@ -52,13 +58,14 @@ export interface ChoiceStep extends StepBase {
   correctId: string;
   correctExplanation: string;
   wrongExplanation?: string;
+  /** Immagini mostrate nel pannello di feedback, soltanto dopo la risposta. */
+  feedbackImages?: StepFeedbackImages;
 }
 
 export interface FinalStep extends StepBase {
   kind: 'final';
   question: string;
   helper?: string;
-  cta: string;
 }
 
 export type Step = ChoiceStep | FinalStep;
