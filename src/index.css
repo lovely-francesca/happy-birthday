@@ -1744,17 +1744,24 @@ p {
   color: var(--primary-strong);
 }
 
-.final__date {
-  margin: 10px 0 2px;
-  color: #938aa8;
-  font-size: 12.5px;
-  font-weight: 900;
-  letter-spacing: 0.7px;
-  text-transform: uppercase;
+.final__figure {
+  width: 100%;
+  max-width: 260px;
+  margin: 18px auto 0;
+}
+
+.final__figure .step-figure__media {
+  aspect-ratio: 4 / 5;
+  max-height: 330px;
+  border-color: #fff;
+  border-radius: 22px;
+  box-shadow:
+    0 14px 34px rgba(100, 70, 150, 0.16),
+    0 3px 0 #ece4f6;
 }
 
 .final__mascot {
-  margin: 0 0 -6px;
+  margin: 6px 0 -6px;
 }
 
 .final__card {

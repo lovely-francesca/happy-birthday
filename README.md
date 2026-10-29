@@ -31,7 +31,7 @@ Tutto il contenuto è in due file:
 
 | File | Cosa cambiare |
 | --- | --- |
-| `src/data/birthday.ts` | Nome, età, data, messaggio finale, firma, nascondiglio del regalo |
+| `src/data/birthday.ts` | Nome, età, data, foto finale, messaggio, firma, nascondiglio del regalo |
 | `src/data/steps.ts` | Le 7 domande, opzioni, risposta corretta, spiegazioni, immagini e immagini di feedback |
 
 I punti pensati per essere sostituiti sono marcati con `TODO`. Nei testi puoi usare
@@ -196,8 +196,8 @@ Landing (cielo + nuvole animate) coperta da un biglietto da grattare
 - **Palette**: cielo, rosa, giallo e viola; il verde resta solo per le risposte corrette.
 - **Stelle**: 3 senza errori, 2 con un errore, 1 con due o più (massimo 21).
 - **Finale**: il pacco è un pulsante: a ogni tocco (fino a 5) si ingrandisce, poi esplode in un
-  burst di coriandoli e si passa alla schermata finale. Restano messaggio personale, età,
-  sorpresa, statistiche, rigioca e “Rivedi i fuochi”. Nessun tasto di condivisione.
+  burst di coriandoli e si passa alla schermata finale. Restano foto della festeggiata, messaggio
+  personale, sorpresa, statistiche, rigioca e “Rivedi i fuochi”. Nessun tasto di condivisione.
 - **Audio**: effetti sintetizzati con Web Audio, nessun file da caricare; toggle in alto.
 - **Accessibilità**: focus visibile, ruoli ARIA, navigazione da tastiera (Esc chiude),
   fallback «Rivela subito» per la landing, pacco finale attivabile con Enter/Spazio e ridotto

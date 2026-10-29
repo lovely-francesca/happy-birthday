@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { birthday } from '../data/birthday';
 import { Icon } from './Icon';
 import { Mascot } from './Mascot';
+import { StepFigure } from './StepFigure';
 import { Confetti } from './Confetti';
 import { Fireworks } from './Fireworks';
 
@@ -41,9 +42,8 @@ export function FinalScreen({
           Buon compleanno,
           <span>{birthday.name}!</span>
         </h1>
-        <p className="final__date">
-          {birthday.age} anni · {birthday.dateLabel}
-        </p>
+
+        <StepFigure image={birthday.finalImage} className="final__figure" />
 
         <Mascot size={158} className="final__mascot" />
 

@@ -121,7 +121,7 @@ poi esplode in un burst di coriandoli) → schermata finale.
 ## 4. Schermata finale
 
 - Coriandoli CSS a caduta + **fuochi d'artificio su canvas** (razzi, esplosioni, gravità, scie).
-- Mascotte grande, «Buon compleanno, {nome}!», età, messaggio personale e firma.
+- Mascotte grande, «Buon compleanno, {nome}!», foto della festeggiata, messaggio personale e firma.
 - Card «La tua sorpresa» con il nascondiglio del regalo.
 - Statistiche: 7/7 tappe, stelle totali.
 - Azioni: rigioca (con conferma), rivedi il percorso. **Nessuna condivisione.**
@@ -149,7 +149,7 @@ Anteprima live: <https://lovely-francesca.github.io/happy-birthday/> · card QR:
 
 Tutto il contenuto sta in due file:
 
-- `src/data/birthday.ts` → nome, età, data, messaggio, firma, nascondiglio del regalo.
+- `src/data/birthday.ts` → nome, età, data, foto finale, messaggio, firma, nascondiglio del regalo.
 - `src/data/steps.ts` → domande, opzioni, risposte corrette, spiegazioni e immagini
   (i punti da cambiare sono marcati con `TODO`).
 
