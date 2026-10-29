@@ -122,7 +122,7 @@ export const STEPS: Step[] = [
     id: 'diva',
     title: 'La diva del...',
     icon: 'music',
-    question: 'Quando Francesca canta a squarciagola come Whitney Houston, a chi somiglia davvero?',
+    question: 'Quando Francesca canta a squarciagola, a chi somiglia davvero?',
     helper: 'Rispondi con il cuore. E con le orecchie tappate. 🎤',
     emoji: '🎤',
     options: [
