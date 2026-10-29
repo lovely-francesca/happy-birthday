@@ -22,26 +22,31 @@ export function FinalScreen({
   onBackToPath,
 }: FinalScreenProps) {
   const [burst, setBurst] = useState(0);
-  const [giftPhase, setGiftPhase] = useState<'idle' | 'countdown' | 'revealed'>('idle');
+  const [giftPhase, setGiftPhase] = useState<'idle' | 'scrolling' | 'countdown' | 'revealed'>(
+    'idle',
+  );
   const [countdown, setCountdown] = useState(3);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const armedRef = useRef(false);
   const figureRef = useRef<HTMLDivElement | null>(null);
   const maxStars = totalSteps * 3;
 
   const startGiftPress = () => {
-    if (giftPhase === 'revealed' || pressTimer.current) return;
-    figureRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (giftPhase !== 'idle' || pressTimer.current) return;
     pressTimer.current = setTimeout(() => {
       pressTimer.current = null;
-      setCountdown(3);
-      setGiftPhase('countdown');
+      armedRef.current = true;
     }, 600);
   };
 
-  const cancelGiftPress = () => {
+  const endGiftPress = () => {
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
       pressTimer.current = null;
+    }
+    if (armedRef.current && giftPhase === 'idle') {
+      armedRef.current = false;
+      setGiftPhase('scrolling');
     }
   };
 
@@ -59,7 +64,50 @@ export function FinalScreen({
     return () => clearInterval(interval);
   }, [giftPhase]);
 
-  useEffect(() => cancelGiftPress, []);
+  useEffect(() => {
+    if (giftPhase !== 'scrolling') return;
+    const el = figureRef.current;
+    if (!el) {
+      setCountdown(3);
+      setGiftPhase('countdown');
+      return;
+    }
+    const rect = el.getBoundingClientRect();
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const startY = window.scrollY;
+    const endY = Math.max(
+      0,
+      Math.min(window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2, maxScroll),
+    );
+    if (Math.abs(endY - startY) < 2) {
+      setCountdown(3);
+      setGiftPhase('countdown');
+      return;
+    }
+    const duration = 700;
+    const startedAt = performance.now();
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    let raf = 0;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - startedAt) / duration);
+      window.scrollTo(0, startY + (endY - startY) * ease(t));
+      if (t < 1) {
+        raf = requestAnimationFrame(step);
+      } else {
+        setCountdown(3);
+        setGiftPhase('countdown');
+      }
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, [giftPhase]);
+
+  useEffect(
+    () => () => {
+      if (pressTimer.current) clearTimeout(pressTimer.current);
+    },
+    [],
+  );
 
   return (
     <main className="final-screen">
@@ -114,13 +162,13 @@ export function FinalScreen({
           tabIndex={0}
           aria-label="Tieni premuto per la sorpresa"
           onPointerDown={startGiftPress}
-          onPointerUp={cancelGiftPress}
-          onPointerLeave={cancelGiftPress}
-          onPointerCancel={cancelGiftPress}
+          onPointerUp={endGiftPress}
+          onPointerLeave={endGiftPress}
+          onPointerCancel={endGiftPress}
           onKeyDown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') startGiftPress();
           }}
-          onKeyUp={cancelGiftPress}
+          onKeyUp={endGiftPress}
           onContextMenu={(event) => event.preventDefault()}
         >
           <span className="final__gift-emoji" aria-hidden="true">
