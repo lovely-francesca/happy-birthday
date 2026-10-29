@@ -1432,8 +1432,10 @@ p {
 }
 
 .feedback .step-figure__media {
-  aspect-ratio: 16 / 9;
-  max-height: 128px;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
   border-color: rgba(255, 255, 255, 0.75);
   background: rgba(255, 255, 255, 0.5);
 }
@@ -1441,6 +1443,11 @@ p {
 .feedback .step-figure__caption {
   margin-top: 4px;
   font-size: 11px;
+}
+
+.feedback .step-figure--contain .step-figure__media {
+  border-color: transparent;
+  background: transparent;
 }
 
 .feedback .btn {
@@ -2392,7 +2399,7 @@ p {
   }
 
   .feedback .step-figure__media {
-    max-height: 78px;
+    max-width: 120px;
   }
 
   .gift-meter {

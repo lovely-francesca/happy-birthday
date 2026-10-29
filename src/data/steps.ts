@@ -1,17 +1,22 @@
-import type { Step, StepFeedbackImages } from '../types';
+import type { Step, StepFeedbackImages, StepImage } from '../types';
 import { birthday } from './birthday';
 
-// TODO: immagini segnaposto condivise da tutte le tappe. Per personalizzarle, sostituisci
-// il blocco `feedbackImages` dentro ogni step con foto specifiche (src, alt, caption).
+// La foto della risposta sbagliata è condivisa da tutte le tappe.
+const WRONG_FEEDBACK: StepImage = {
+  src: 'images/risposta-sbagliata.jpg',
+  alt: 'Risposta sbagliata: primo piano di Francesca con gli occhiali',
+};
+
+// La risposta esatta usa un segnaposto condiviso, tranne nella tappa
+// "cosa-ama-francesca" che ha la sua foto. TODO: sostituisci il segnaposto qui sotto
+// (o il blocco `feedbackImages` dei singoli step) con le foto vere.
 const FEEDBACK_IMAGES: StepFeedbackImages = {
   correct: {
     src: 'images/feedback-giusto.svg',
     alt: 'Risposta esatta: cuoricini e stelline',
+    fit: 'contain',
   },
-  wrong: {
-    src: 'images/feedback-sbagliato.svg',
-    alt: 'Risposta sbagliata: faccina pensierosa',
-  },
+  wrong: WRONG_FEEDBACK,
 };
 
 /**
@@ -42,22 +47,28 @@ export const STEPS: Step[] = [
   },
   {
     kind: 'choice',
-    id: 'indovina-emoji',
-    title: 'Indovina l’emoji',
+    id: 'cosa-ama-francesca',
+    title: "Qual'è la cosa che ama più (forse) di Raffaele?",
     icon: 'smile',
     question: 'Cosa stanno preparando queste tre emoji?',
-    helper: 'Mettile in fila e leggi la risposta.',
-    emoji: '🎂🎈🎁',
+    helper: "Non serve l'aiuto!",
+    emoji: '',
     options: [
-      { id: 'festa', label: 'Una festa di compleanno' },
-      { id: 'nuoto', label: 'Una gara di nuoto' },
+      { id: 'festa', label: 'La cioccolata' },
+      { id: 'nuoto', label: 'Un pangocciole (Francese)' },
       { id: 'picnic', label: 'Un picnic in montagna' },
       { id: 'cinema', label: 'Una serata al cinema' },
     ],
     correctId: 'festa',
     correctExplanation: 'Ovvio! Torta, palloncini e regali: il programma di oggi. 🎉',
     wrongExplanation: 'Mmm, non ci siamo. Guarda bene la torta... 🎂',
-    feedbackImages: FEEDBACK_IMAGES,
+    feedbackImages: {
+      correct: {
+        src: 'images/francesca-pangocciole.jpg',
+        alt: 'Francesca per strada con una pangocciola gigante in mano',
+      },
+      wrong: WRONG_FEEDBACK,
+    },
   },
   {
     kind: 'choice',

@@ -89,8 +89,9 @@ feedbackImages: {
 - Entrambi i campi sono opzionali: se ne manca uno, quel pannello resta senza immagine.
 - Se il file manca non viene mostrato nulla (niente icona rotta) e lo step resta giocabile.
 - «Riprova» azzera il feedback: l’immagine sparisce e ricompare solo alla risposta successiva.
-- Nel repository ci sono due segnaposto condivisi (`feedback-giusto.svg`,
-  `feedback-sbagliato.svg`): sostituiscili con foto specifiche per ogni tappa.
+- Nel repository resta il segnaposto per la risposta esatta (`feedback-giusto.svg`); la
+  risposta sbagliata usa già una foto condivisa (`risposta-sbagliata.jpg`). Sostituisci i
+  segnaposto con foto specifiche per ogni tappa.
 
 Regole pratiche per GitHub Pages:
 
