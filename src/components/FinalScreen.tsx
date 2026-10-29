@@ -82,7 +82,7 @@ export function FinalScreen({
           {giftPhase === 'revealed' ? (
             <div className="final__gift-stage" aria-live="polite">
               <img
-                src="/images/non-te-lo-dico.png"
+                src="images/non-te-lo-dico.png"
                 alt="Sorpresa rimandata"
                 className="final__gift-stage-img"
               />
