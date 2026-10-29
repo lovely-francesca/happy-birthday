@@ -25,10 +25,12 @@ export function FinalScreen({
   const [giftPhase, setGiftPhase] = useState<'idle' | 'countdown' | 'revealed'>('idle');
   const [countdown, setCountdown] = useState(3);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const figureRef = useRef<HTMLDivElement | null>(null);
   const maxStars = totalSteps * 3;
 
   const startGiftPress = () => {
     if (giftPhase === 'revealed' || pressTimer.current) return;
+    figureRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     pressTimer.current = setTimeout(() => {
       pressTimer.current = null;
       setCountdown(3);
@@ -78,7 +80,7 @@ export function FinalScreen({
           <span>{birthday.name}!</span>
         </h1>
 
-        <div className="final__figure">
+        <div className="final__figure" ref={figureRef}>
           {giftPhase === 'revealed' ? (
             <div className="final__gift-stage" aria-live="polite">
               <img
