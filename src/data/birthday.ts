@@ -16,7 +16,7 @@ export const birthday = {
   message:
     'Oggi non contano gli anni, contano le persone che ti vogliono bene. E sono tante, tantissime. Grazie per ogni risata, ogni abbraccio e ogni avventura: il regalo più bello è averti nella mia vita.',
   signature: 'Con tutto il cuore, chi ti pensa sempre 💛',
-  giftHint: 'Guarda dietro il cuscino del divano 🎁',
+  giftHint: 'Vuoi sapere il tuo regalo? 🎁',
   shareText: 'Ho completato il percorso di compleanno! 🎂🎉',
 } as const;
 
